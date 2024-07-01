@@ -1,7 +1,12 @@
 const { CPP, C, PYTHON, JAVA, NODEJS, RUBY, PROMPTV1, PROMPTV2 } = require('../enums/supportedLanguages')
 const ONE_MB = 1024 // ulimit uses Kilobyte as base unit
 const ALLOWED_RAM = process.env.ALLOWED_RAM || 512
-
+// enums/supportedLanguages.js
+const supportedLanguages = {
+    PYTHON: 'python',
+    JAVA: 'java',
+  };
+  
 const LANGUAGES_CONFIG = {
     [C]: {
         compile: 'gcc -o a.out solution.c',
@@ -54,3 +59,4 @@ const LANGUAGES_CONFIG = {
 }
 
 module.exports = { LANGUAGES_CONFIG }
+module.exports = {supportedLanguages};

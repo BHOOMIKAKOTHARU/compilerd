@@ -24,6 +24,31 @@ const supportedLanguages = require('../enums/supportedLanguages')
 const { generate } = require('@builder.io/sqlgenerate')
 const parser = require('sqlite-parser')
 const crypto = require('crypto')
+const { exec } = require('child_process');
+const { LANGUAGES_CONFIG } = require('../configs/languages');
+
+const runCode = (language, code) => {
+    return new Promise((resolve, reject) => {
+        const config = LANGUAGES_CONFIG[language];
+        if (!config) {
+            return reject(new Error('Unsupported language'));
+        }
+
+        const command = `${config.compile} && ${config.run}`;
+
+        exec(command, { timeout: config.timeout * 1000, maxBuffer: config.memory }, (error, stdout, stderr) => {
+            if (error) {
+                return reject(error);
+            }
+            if (stderr) {
+                return resolve(stderr);
+            }
+            return resolve(stdout);
+        });
+    });
+};
+
+
 
 const _runScript = async (cmd, res, runMemoryCheck = false) => {
     let initialMemory = 0
@@ -872,3 +897,4 @@ const _executeMultiFile = async (req, res, response) => {
 }
 
 module.exports = { execute }
+module.exports = { runCode };

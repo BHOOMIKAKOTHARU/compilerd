@@ -20,4 +20,23 @@ describe('Tests', () => {
             expect(response).toHaveProperty('data.error', testCase.expectedResponse.error)
         }, 15000)
     }
-})
+}
+// tests/codeRunner.test.js
+const { runCode } = require('../services/codeRunner');
+
+describe('Code Runner', () => {
+    it('should run JavaScript code', async () => {
+        const output = await runCode('javascript', 'console.log("Hello, World!")');
+        expect(output.trim()).toBe('Hello, World!');
+    });
+
+    it('should run Python code', async () => {
+        const output = await runCode('python', 'print("Hello, World!")');
+        expect(output.trim()).toBe('Hello, World!');
+    });
+
+;
+
+    // Add more tests as needed
+});
+)
